@@ -1,0 +1,19 @@
+.bar {
+  height: 64px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.left { display: flex; align-items: center; }
+.nav { display: flex; align-items: center; gap: 20px; }
+.link {
+  font: 400 14px/20px var(--font-body);
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.divider { width: 1px; height: 16px; background: #BCBAB5; }
