@@ -1,0 +1,23 @@
+services:
+  strava-integration:
+    build: ./apps/strava-integration
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      - dynamodb-local
+      - health-actions-mock
+    volumes:
+      - ./apps/strava-integration/src:/app/src
+
+  health-actions-mock:
+    build: ./apps/health-actions-mock
+    ports:
+      - "8001:8001"
+    env_file: .env
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    ports:
+      - "8002:8000"
+    command: -jar DynamoDBLocal.jar -inMemory -sharedDb
