@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #FFFFFF;
+  font-family: var(--font-body);
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100%; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #E2E1DF; border-radius: 10px; }
+
+button { font: inherit; }
