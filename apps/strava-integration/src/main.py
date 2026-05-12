@@ -52,7 +52,7 @@ def callback(code: str = Query(...), state: str = Query(...)):
     activities = fetch_recent_activities(participant_id, days_back=90)
     registered = register_activities(participant_id, activities)
 
-    return RedirectResponse(f"http://localhost:3000/connected?registered={len(registered)}")
+    return RedirectResponse(f"http://localhost:5173/connected?registered={len(registered)}")
 
 
 @app.get("/health")

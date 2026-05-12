@@ -1,0 +1,24 @@
+.chip {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chip[data-size='sm'] { width: 36px; height: 36px; }
+.chip[data-size='md'] { width: 40px; height: 40px; }
+
+.chip[data-size='sm'] .glyph { width: 22px; height: 22px; }
+.chip[data-size='md'] .glyph { width: 24px; height: 24px; }
+
+/* Background colors by activity kind. */
+.chip[data-kind='run']    { background: #FFE3D7; }
+.chip[data-kind='walk']   { background: #F7F3EB; }
+.chip[data-kind='bike']   { background: #D8EBFF; }
+.chip[data-kind='swim']   { background: #D8EBFF; }
+.chip[data-kind='yoga']   { background: #F2E9FB; }
+.chip[data-kind='gym']    { background: #FFEBEB; }
+.chip[data-kind='mind']   { background: #F2E9FB; }
+.chip[data-kind='water']  { background: #D8EBFF; }
+.chip[data-kind='doctor'] { background: #D4F8E7; }

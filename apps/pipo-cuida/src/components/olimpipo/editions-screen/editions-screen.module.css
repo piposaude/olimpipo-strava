@@ -1,0 +1,224 @@
+/* ─── Strava banner ─────────────────────────────── */
+.stravaBanner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fc4c02;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font: 600 14px/20px var(--font-ui);
+  margin-bottom: 24px;
+  transition: filter 160ms var(--ease-standard);
+}
+.stravaBanner:hover { filter: brightness(0.94); }
+.stravaLogo { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* ─── Hero card (active edition) ─────────────────── */
+.heroCard {
+  position: relative;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  padding: 26px 28px;
+  text-align: left;
+  background: #060D41;
+  color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  display: block;
+  font: inherit;
+  margin-bottom: 36px;
+  transition: box-shadow 160ms var(--ease-standard);
+}
+.heroCard:hover { box-shadow: 0 6px 28px rgba(6, 13, 65, 0.28); }
+
+.heroDots {
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+}
+
+.activeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 8px;
+  background: rgba(212, 248, 231, 0.18);
+  color: #7AE2B5;
+  border-radius: 999px;
+  font: 500 11px/1.4 var(--font-mono);
+  margin-bottom: 16px;
+}
+.activeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7AE2B5;
+  box-shadow: 0 0 0 3px rgba(122, 226, 181, 0.25);
+}
+
+.heroTitle {
+  font: 500 28px/34px var(--font-display);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.heroSub {
+  font: 400 14px/22px var(--font-body);
+  color: #BCC4F5;
+}
+
+.heroStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 20px;
+}
+
+.heroStat { }
+.heroStatValue {
+  font: 500 22px/26px var(--font-display);
+  color: #fff;
+  letter-spacing: -0.2px;
+}
+.heroStatLabel {
+  font: 400 12px/16px var(--font-body);
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+.heroCta {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 14px/20px var(--font-ui);
+  color: #fff;
+}
+.heroCtaArrow { font-size: 18px; line-height: 1; }
+
+/* ─── Past editions ──────────────────────────────── */
+.pastSection { }
+.pastTitle {
+  margin: 0 0 14px;
+  font: 500 16px/22px var(--font-display);
+  color: #000;
+}
+.pastList {
+  border-top: 1px solid var(--pipo-neutral-light);
+}
+
+.pastRow {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pipo-neutral-light);
+  padding: 16px 4px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: background 120ms var(--ease-standard);
+}
+.pastRow:hover { background: #FAFAF9; }
+
+/* Rank chip — base + medal variants */
+.rankChip {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  border: 1px solid transparent;
+}
+.rankChip[data-tier='gold']   { background: #FFE9A8; color: #7A5200; border-color: #C69414; border-width: 2px; }
+.rankChip[data-tier='silver'] { background: #ECECEC; color: #3C404A; border-color: #9A9A9A; border-width: 2px; }
+.rankChip[data-tier='bronze'] { background: #F4D9BD; color: #6B3A14; border-color: #A26431; border-width: 2px; }
+.rankChip[data-tier='top10']  { background: #FFEEC2; color: #7A4A00; }
+.rankChip[data-tier='none']   { background: #F4F2EF; color: #3C404A; }
+
+.rankChipEyebrow {
+  font: 500 9px/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+.rankChipValue {
+  font: 600 20px/1 var(--font-display);
+  letter-spacing: -0.3px;
+}
+
+.medalStar {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  border: 2px solid #fff;
+}
+.rankChip[data-tier='gold']   .medalStar { background: #C69414; }
+.rankChip[data-tier='silver'] .medalStar { background: #9A9A9A; }
+.rankChip[data-tier='bronze'] .medalStar { background: #A26431; }
+
+.pastBody {
+  flex: 1;
+  min-width: 0;
+}
+.pastTopLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pastLabel { font: 500 15px/22px var(--font-body); color: #000; }
+.pastMeta { font: 400 13px/18px var(--font-body); color: var(--fg-3); margin-top: 2px; }
+
+.pastTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font: 500 10px/1.4 var(--font-mono);
+}
+.pastTag[data-tier='gold']   { background: #FFE9A8; color: #7A5200; }
+.pastTag[data-tier='silver'] { background: #ECECEC; color: #3C404A; }
+.pastTag[data-tier='bronze'] { background: #F4D9BD; color: #6B3A14; }
+.pastTag[data-tier='top10']  { background: #FFEEC2; color: #7A4A00; }
+
+.pastChevron {
+  color: #3C404A;
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}

@@ -1,0 +1,61 @@
+.shell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px 24px 96px;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.checkmark {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--pipo-success-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.checkmark svg {
+  width: 44px;
+  height: 44px;
+}
+
+.title {
+  margin: 0;
+  font: 500 30px/36px var(--font-display);
+  color: #000;
+  letter-spacing: -0.4px;
+}
+
+.subtitle {
+  margin: 0;
+  font: 400 15px/22px var(--font-body);
+  color: var(--fg-3);
+}
+
+.backLink {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font: 600 14px/20px var(--font-ui);
+  transition: box-shadow 160ms var(--ease-standard);
+}
+.backLink:hover { box-shadow: inset 0 0 0 2px #000; }
+.backArrow { font-size: 16px; line-height: 1; }
