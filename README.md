@@ -28,29 +28,32 @@ Participante → conecta conta Strava (OAuth) → Strava envia webhook → healt
 olimpipo-strava/
 ├── apps/
 │   ├── strava-integration/      # Serviço principal: OAuth + ingestion de atividades
-│   │   ├── src/
-│   │   │   ├── main.py
-│   │   │   ├── auth/
-│   │   │   │   ├── strava_oauth.py    # Fluxo OAuth 2.0
-│   │   │   │   └── token_store.py     # Persistência de tokens no DynamoDB
-│   │   │   ├── activities/
-│   │   │   │   ├── fetcher.py         # Pull de atividades via API Strava
-│   │   │   │   └── eligibility.py     # Filtra atividades elegíveis (tipo + duração)
-│   │   │   └── webhook/
-│   │   │       └── handler.py         # Recebe push events do Strava
-│   │   ├── Dockerfile
-│   │   └── requirements.txt
-│   └── health-actions-mock/     # Mock da API interna Pipo (health-actions service)
-│       ├── src/
-│       │   └── main.py          # FastAPI simulando os endpoints reais
-│       └── Dockerfile
-├── infra/
-│   └── local-dynamodb/          # DynamoDB local via Docker
-├── docker-compose.yml           # Orquestra tudo localmente
-├── .env.example
-└── .github/
-    └── workflows/
-        └── ci.yml
+│   │   └── src/
+│   │       ├── main.py                # Endpoints /strava/connect e /strava/callback
+│   │       ├── config.py              # Variáveis de ambiente
+│   │       ├── auth/
+│   │       │   ├── strava_oauth.py    # Fluxo OAuth 2.0 (build URL, exchange, refresh)
+│   │       │   └── token_store.py     # Persistência de tokens no DynamoDB
+│   │       ├── activities/
+│   │       │   ├── fetcher.py         # Pull de atividades com auto-refresh de token
+│   │       │   ├── eligibility.py     # Filtra por tipo, duração mínima e 1/dia
+│   │       │   └── registrar.py       # POST para o health-actions
+│   │       └── webhook/
+│   │           └── handler.py         # Recebe push events do Strava em background
+│   ├── health-actions-mock/     # Mock da API interna Pipo (health-actions service)
+│   │   └── src/
+│   │       └── main.py          # FastAPI simulando os endpoints reais
+│   └── toro-mock/               # Mock da UI do participante (página "Conectar Strava")
+│       └── src/
+│           ├── main.py
+│           └── templates/
+│               ├── connect.html     # Página com botão "Conectar com Strava"
+│               └── success.html     # Página de sucesso pós-OAuth
+├── scripts/
+│   ├── register_webhook.sh      # Registra a subscription no Strava
+│   └── create_test_activity.sh  # Cria atividade de teste via API Strava
+├── docker-compose.yml
+└── .env.example
 ```
 
 ### Por que Python/FastAPI?
@@ -264,47 +267,82 @@ Esses critérios espelham o que o agente conversacional do WhatsApp já valida m
 ### Pré-requisitos
 
 - Docker + Docker Compose
-- Conta de desenvolvedor no Strava: [strava.com/settings/api](https://www.strava.com/settings/api)
-- `ngrok` (para expor o webhook durante desenvolvimento)
+- `ngrok` com authtoken configurado (`ngrok config add-authtoken <token>`)
+- Credenciais do app Strava: [strava.com/settings/api](https://www.strava.com/settings/api)
 
 ### Setup
 
 ```bash
-# 1. Clone e configure variáveis
+# 1. Clone o repositório
+git clone https://github.com/piposaude/olimpipo-strava.git
+cd olimpipo-strava
+
+# 2. Configure as variáveis de ambiente
 cp .env.example .env
-# Edite .env com suas credenciais Strava
+# Edite .env com STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET e JWT_SECRET_KEY
 
-# 2. Sobe a stack
-docker compose up
+# 3. Sobe toda a stack
+docker compose up --build
+```
 
-# 3. Em outro terminal, exponha o webhook
+Serviços disponíveis:
+
+| Serviço | URL | Descrição |
+|---|---|---|
+| toro-mock | `http://localhost:3000` | UI do participante |
+| strava-integration | `http://localhost:8000` | OAuth + webhook |
+| health-actions-mock | `http://localhost:8001` | Mock da API Pipo |
+| dynamodb-local | `localhost:8002` | Banco local |
+
+### Testando o fluxo OAuth
+
+Abra no browser (substitua os valores):
+```
+http://localhost:3000/?participant_id=joao&company_id=minha-empresa
+```
+
+Clique em "Conectar com Strava", autorize, e será redirecionado de volta com as atividades registradas.
+
+### Testando o webhook (atividades em tempo real)
+
+```bash
+# Terminal 2 — expõe o serviço publicamente
 ngrok http 8000
 
-# 4. Registre o webhook no Strava (use a URL do ngrok)
-./scripts/register_webhook.sh https://<ngrok-id>.ngrok.io/webhook
+# Terminal 3 — registra a subscription no Strava (use a URL do ngrok)
+./scripts/register_webhook.sh https://<ngrok-id>.ngrok.io
+
+# Cria uma atividade de teste para disparar o evento
+./scripts/create_test_activity.sh <participant_id>
+
+# Acompanha os eventos chegando
+docker logs -f olimpipo-strava-strava-integration-1
+```
+
+### Conferindo as atividades registradas
+
+```bash
+curl http://localhost:8001/v1/company/<company_id>/participants/activities
 ```
 
 ### Variáveis de ambiente
 
 Veja `.env.example` para a lista completa. As obrigatórias:
 
-| Variável                   | Descrição                                          |
-|----------------------------|----------------------------------------------------|
-| `STRAVA_CLIENT_ID`         | ID do app Strava                                   |
-| `STRAVA_CLIENT_SECRET`     | Secret do app Strava                               |
-| `STRAVA_VERIFY_TOKEN`      | Token arbitrário para validação do webhook         |
-| `JWT_SECRET_KEY`           | Chave para assinar o state JWT                     |
-| `HEALTH_ACTIONS_BASE_URL`  | URL do health-actions (mock local ou real)         |
-| `DYNAMODB_ENDPOINT_URL`    | `http://localhost:8001` para DynamoDB local        |
+| Variável | Descrição |
+|---|---|
+| `STRAVA_CLIENT_ID` | ID do app Strava |
+| `STRAVA_CLIENT_SECRET` | Secret do app Strava |
+| `STRAVA_VERIFY_TOKEN` | Token arbitrário para validação do webhook |
+| `JWT_SECRET_KEY` | Chave para assinar o state JWT do OAuth |
+| `HEALTH_ACTIONS_BASE_URL` | URL do health-actions (mock: `http://health-actions-mock:8001`) |
+| `DYNAMODB_ENDPOINT_URL` | `http://dynamodb-local:8000` (dentro do Docker) |
 
 ---
 
-## Próximos passos
+## O que falta para produção
 
-- [ ] Implementar `GET /strava/connect` e `GET /strava/callback`
-- [ ] Persistência de tokens no DynamoDB local
-- [ ] Endpoint de webhook com handshake de validação
-- [ ] Lógica de elegibilidade de atividades
-- [ ] Mock do `health-actions` com os endpoints reais
-- [ ] `docker-compose.yml` funcional
-- [ ] Conectar no `health-actions` de produção (requer VPN + secrets reais)
+- Integrar a página "Conectar Strava" no Toro real (com autenticação do participante)
+- Provisionar DynamoDB na AWS via Terraform
+- Registrar webhook com URL fixa (não ngrok)
+- Conectar no `health-actions` de produção (requer VPN + secrets AWS)
