@@ -98,3 +98,16 @@
   color: var(--fg-3);
   font-weight: 400;
 }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0 0 24px;
+  font: 500 14px/20px var(--font-ui);
+  color: var(--pipo-neutral-dark);
+  cursor: pointer;
+  transition: color 120ms var(--ease-standard);
+}
+.back:hover { color: var(--pipo-brand-primary); }

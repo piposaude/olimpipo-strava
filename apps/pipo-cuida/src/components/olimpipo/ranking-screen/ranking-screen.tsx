@@ -40,7 +40,7 @@ function initials(name: string): string {
 
 export function RankingScreen({
   edition,
-  onBack: _onBack,
+  onBack,
   onOpenActivities,
 }: RankingScreenProps) {
   const [tab, setTab] = useState<Tab>('all');
@@ -69,6 +69,9 @@ export function RankingScreen({
 
   return (
     <OlimpipoShell>
+      <button type="button" onClick={onBack} className={styles.back}>
+        ← Voltar
+      </button>
       <OlimpipoHeader
         eyebrow={`Olimpipo · ${edition.label}`}
         title="Classificação"

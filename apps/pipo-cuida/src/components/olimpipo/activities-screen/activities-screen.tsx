@@ -8,13 +8,16 @@ export type ActivitiesScreenProps = {
   onBack: () => void;
 };
 
-export function ActivitiesScreen({ edition, onBack: _onBack }: ActivitiesScreenProps) {
+export function ActivitiesScreen({ edition, onBack }: ActivitiesScreenProps) {
   const totalPoints = OLIMPIPO_ACTIVITIES
     .filter((a) => a.status === 'aprovada')
     .reduce((s, a) => s + a.points, 0);
 
   return (
     <OlimpipoShell>
+      <button type="button" onClick={onBack} className={styles.back}>
+        ← Voltar
+      </button>
       <OlimpipoHeader
         eyebrow={`Olimpipo · ${edition.label}`}
         title="Minhas atividades"
