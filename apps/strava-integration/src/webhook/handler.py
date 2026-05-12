@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Query, HTTPException, Request
+import asyncio
+from fastapi import APIRouter, Query, HTTPException, Request, BackgroundTasks
 from config import STRAVA_VERIFY_TOKEN
 from auth import token_store
 from activities.fetcher import fetch_activity
@@ -15,25 +16,36 @@ async def webhook_verify(
 ):
     if hub_mode != "subscribe" or hub_verify_token != STRAVA_VERIFY_TOKEN:
         raise HTTPException(status_code=403, detail="verification failed")
+    print(f"[webhook] subscription verified")
     return {"hub.challenge": hub_challenge}
 
 
 @router.post("/webhook")
-async def webhook_event(request: Request):
+async def webhook_event(request: Request, background_tasks: BackgroundTasks):
     event = await request.json()
+    print(f"[webhook] received event: {event}")
 
     if event.get("object_type") != "activity" or event.get("aspect_type") != "create":
         return {"status": "ignored"}
 
+    # Responde 200 imediatamente pro Strava e processa em background
+    background_tasks.add_task(_process_activity_event, event)
+    return {"status": "received"}
+
+
+def _process_activity_event(event: dict):
     strava_athlete_id = str(event.get("owner_id"))
     activity_id = event.get("object_id")
 
+    print(f"[webhook] processing activity {activity_id} for athlete {strava_athlete_id}")
+
     record = token_store.get_by_athlete(strava_athlete_id)
     if not record:
-        return {"status": "athlete_not_connected"}
+        print(f"[webhook] athlete {strava_athlete_id} not connected")
+        return
 
     participant_id = record["participant_id"]
     activity = fetch_activity(participant_id, activity_id)
     results = register_activities(participant_id, [activity])
 
-    return {"status": "processed", "registered": len(results)}
+    print(f"[webhook] registered {len(results)} activities for participant {participant_id}")
