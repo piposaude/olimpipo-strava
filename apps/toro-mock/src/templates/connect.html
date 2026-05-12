@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olimpipo — Conectar Strava</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .logo span { color: #f97316; }
+
+    .subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 40px;
+    }
+
+    .trophy { font-size: 56px; margin-bottom: 24px; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .participant-info {
+      background: #f5f5f7;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+      text-align: left;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .participant-info strong { color: #1a1a2e; }
+
+    .btn-strava {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fc4c02;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.15s;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-strava:hover { background: #e04400; }
+
+    .btn-strava svg { width: 22px; height: 22px; fill: white; }
+
+    .footer {
+      margin-top: 28px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">Pipo<span>.</span></div>
+    <div class="subtitle">Plataforma de saúde</div>
+
+    <div class="trophy">🏆</div>
+
+    <h1>Conecte seu Strava ao Olimpipo</h1>
+    <p>
+      Sua empresa está participando do Olimpipo! Conecte sua conta do Strava
+      e suas atividades físicas serão registradas automaticamente.
+    </p>
+
+    <div class="participant-info">
+      <strong>Participante:</strong> {{ participant_id }}<br>
+      <strong>Empresa:</strong> {{ company_id }}
+    </div>
+
+    <a class="btn-strava" href="{{ connect_url }}">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+      </svg>
+      Conectar com Strava
+    </a>
+
+    <div class="footer">
+      Você será redirecionado para o Strava para autorizar o acesso às suas atividades.
+    </div>
+  </div>
+</body>
+</html>

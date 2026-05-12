@@ -16,6 +16,13 @@ services:
       - "8001:8001"
     env_file: .env
 
+  toro-mock:
+    build: ./apps/toro-mock
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/toro-mock/src:/app/src
+
   dynamodb-local:
     image: amazon/dynamodb-local:latest
     ports:
