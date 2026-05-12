@@ -10,7 +10,7 @@ def get_valid_access_token(participant_id: str) -> str:
     if not record:
         raise ValueError(f"no strava token for participant {participant_id}")
 
-    if record["expires_at"] - time.time() < 300:
+    if int(record["expires_at"]) - time.time() < 300:
         new_tokens = refresh_access_token(record["refresh_token"])
         token_store.update_tokens(
             participant_id,
@@ -42,6 +42,9 @@ def fetch_recent_activities(participant_id: str, days_back: int = 7) -> list[dic
         activities.extend(batch)
         page += 1
 
+    print(f"[fetcher] fetched {len(activities)} activities for participant {participant_id}")
+    for a in activities:
+        print(f"  - {a.get('name')} | type={a.get('type')} | elapsed={a.get('elapsed_time')}s | date={a.get('start_date_local', '')[:10]}")
     return activities
 
 

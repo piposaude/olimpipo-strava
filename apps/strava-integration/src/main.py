@@ -49,7 +49,7 @@ def callback(code: str = Query(...), state: str = Query(...)):
         expires_at=token_response["expires_at"],
     )
 
-    activities = fetch_recent_activities(participant_id, days_back=7)
+    activities = fetch_recent_activities(participant_id, days_back=90)
     registered = register_activities(participant_id, activities)
 
     return RedirectResponse(f"/success?registered={len(registered)}")

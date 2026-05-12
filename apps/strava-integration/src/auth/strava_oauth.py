@@ -17,7 +17,7 @@ def build_authorization_url(participant_id: str, company_id: str) -> str:
         "redirect_uri": STRAVA_REDIRECT_URI,
         "response_type": "code",
         "approval_prompt": "auto",
-        "scope": "activity:read_all,read",
+        "scope": "activity:read_all,activity:write,read",
         "state": state,
     }
     return f"{STRAVA_AUTH_URL}?{urlencode(params)}"
