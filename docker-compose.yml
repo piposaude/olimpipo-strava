@@ -28,3 +28,11 @@ services:
     ports:
       - "8002:8000"
     command: -jar DynamoDBLocal.jar -inMemory -sharedDb
+
+  pipo-cuida:
+    build: ./apps/pipo-cuida
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./apps/pipo-cuida/src:/app/src
+      - ./apps/pipo-cuida/public:/app/public
