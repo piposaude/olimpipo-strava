@@ -1,0 +1,187 @@
+/* ───────────────────────────────────────────────────────────────
+   Pipo Saúde — Design System Tokens (v1)
+   Extraído do arquivo Figma oficial "❇️ Design System.fig".
+   Inclua este arquivo em qualquer HTML/protótipo para usar
+   automaticamente cores, tipografia, sombras e espaçamentos.
+   ─────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
+/* Season Serif é uma fonte proprietária. Inclua o @font-face do arquivo .woff2 no seu projeto. */
+
+:root {
+  /* ─── Brand ─────────────────────────────────────────── */
+  --pipo-brand-primary:           #000000;
+  --pipo-brand-primary-light:     #E6D9C2;
+  --pipo-brand-primary-lightest:  #F7F3EB;
+  --pipo-brand-primary-light-op:    rgba(157, 106, 5, 0.25);
+  --pipo-brand-primary-lightest-op: rgba(128, 85,  0, 0.07);
+
+  /* ─── Neutrals (greys) ──────────────────────────────── */
+  --pipo-neutral-darkest:   #000000;
+  --pipo-neutral-dark:      #6B6663;
+  --pipo-neutral-regular:   #BCBAB5;
+  --pipo-neutral-light:     #E2E1DF;
+  --pipo-neutral-lightest:  #F6F6F6;
+  --pipo-neutral-light-op:    rgba(128, 115, 89, 0.21);
+  --pipo-overlay:             rgba(0, 0, 0, 0.32);
+
+  /* ─── Beige ─────────────────────────────────────────── */
+  --pipo-beige-regular:   #DDD6D0;
+  --pipo-beige-light:     #E6D9C2;
+  --pipo-beige-lightest:  #F7F3EB;
+
+  /* ─── Support · Success ─────────────────────────────── */
+  --pipo-success-dark:     #17A66D;
+  --pipo-success-light:    #A8F2CE;
+  --pipo-success-lightest: #D4F8E7;
+
+  /* ─── Support · Warning ─────────────────────────────── */
+  --pipo-warning-dark:     #FFB033;
+  --pipo-warning-light:    #FFD17D;
+  --pipo-warning-lightest: #FFEEC2;
+
+  /* ─── Support · Danger ──────────────────────────────── */
+  --pipo-danger-dark:     #F04646;
+  --pipo-danger-pressed:  #902D2D;
+  --pipo-danger-light:    #FFACAC;
+  --pipo-danger-lightest: #FFDEDE;
+
+  /* ─── Vendor (Whatsapp) ─────────────────────────────── */
+  --pipo-whatsapp-dark:    #0D685E;
+  --pipo-whatsapp-regular: #118578;
+
+  /* ─── Complementary (charts, illustrations) ─────────── */
+  --pipo-blue-dark:        #1527A9;
+  --pipo-blue-regular:     #3370D1;
+  --pipo-blue-light:       #A2CEFF;
+
+  --pipo-purple-regular:   #8B3ADD;
+  --pipo-purple-light:     #E8D8F8;
+  --pipo-purple-lightest:  #F2E9FB;
+
+  --pipo-pink-regular:     #FE7B9D;
+  --pipo-pink-light:       #FFACC2;
+  --pipo-pink-extralight:  #FFD9E1;
+  --pipo-pink-lightest:    #FFEFF3;
+
+  --pipo-peach-regular:    #FFA28D;
+  --pipo-peach-light:      #FFDAD1;
+  --pipo-peach-lightest:   #FFEDE8;
+
+  /* ─── Surfaces & text (semantic aliases) ────────────── */
+  --pipo-surface:           #FFFFFF;
+  --pipo-surface-subtle:    var(--pipo-neutral-lightest);
+  --pipo-surface-canvas:    var(--pipo-beige-lightest);
+  --pipo-text-primary:      #333333;
+  --pipo-text-secondary:    var(--pipo-neutral-dark);
+  --pipo-text-on-primary:   #FFFFFF;
+  --pipo-border:            var(--pipo-neutral-light);
+  --pipo-border-strong:     var(--pipo-neutral-regular);
+
+  /* ─── Opacity tokens ────────────────────────────────── */
+  --pipo-opacity-medium: 0.50;
+  --pipo-opacity-light:  0.30;
+  --pipo-opacity-subtle: 0.15;
+
+  /* ─── Typography · families ─────────────────────────── */
+  --pipo-font-display:   "Season Serif", "Manrope", Georgia, serif;
+  --pipo-font-body:      "Manrope", system-ui, -apple-system, sans-serif;
+  --pipo-font-ui:        "Manrope", system-ui, sans-serif;
+  --pipo-font-mono:      "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ─── Typography · sizes (base 16px) ────────────────── */
+  --pipo-fs-xxsmall: 0.5rem;     /*  8px */
+  --pipo-fs-xsmall:  0.75rem;    /* 12px */
+  --pipo-fs-small:   0.875rem;   /* 14px */
+  --pipo-fs-medium:  1rem;       /* 16px */
+  --pipo-fs-big:     1.25rem;    /* 20px */
+  --pipo-fs-xbig:    1.5rem;     /* 24px */
+  --pipo-fs-h3:      1.5rem;     /* 24px */
+  --pipo-fs-h2:      2rem;       /* 32px */
+  --pipo-fs-h1:      3rem;       /* 48px */
+
+  /* ─── Typography · weights ──────────────────────────── */
+  --pipo-fw-light:    300;
+  --pipo-fw-regular:  400;
+  --pipo-fw-medium:   500;
+  --pipo-fw-semibold: 600;
+  --pipo-fw-bold:     700;
+
+  /* ─── Typography · line heights ─────────────────────── */
+  --pipo-lh-tight:    1;          /* 100% */
+  --pipo-lh-headline: 1.2;        /* 120% — H1/H2 */
+  --pipo-lh-default:  1.3125;     /* 131.3% — UI default */
+  --pipo-lh-relaxed:  1.5;        /* 150% — body & links */
+
+  /* ─── Spacing scale (8px grid) ──────────────────────── */
+  --pipo-space-none:     0;
+  --pipo-space-xxsmall:  4px;
+  --pipo-space-xsmall:   8px;
+  --pipo-space-small:    16px;
+  --pipo-space-medium:   24px;
+  --pipo-space-large:    32px;
+  --pipo-space-xlarge:   40px;
+  --pipo-space-xxlarge:  48px;
+  --pipo-space-huge:     64px;
+
+  /* ─── Inset / squish (paddings) ─────────────────────── */
+  --pipo-inset-xsmall:  4px;
+  --pipo-inset-small:   8px;
+  --pipo-inset-medium:  16px;
+  --pipo-inset-squish-small: 4px 8px;
+
+  /* ─── Border radius ─────────────────────────────────── */
+  --pipo-radius-small:    8px;
+  --pipo-radius-medium:   16px;
+  --pipo-radius-large:    24px;
+  --pipo-radius-circle:   50%;
+  --pipo-radius-pill:     9999px;
+
+  /* ─── Border width ──────────────────────────────────── */
+  --pipo-border-width-none:    0;
+  --pipo-border-width-small:   1px;
+  --pipo-border-width-medium:  2px;
+
+  /* ─── Shadows ───────────────────────────────────────── */
+  --pipo-shadow-01: 0px 1px 2px rgba(0, 0, 0, 0.08);
+  --pipo-shadow-02: 0px 0px 2px rgba(0, 0, 0, 0.2),
+                    0px 2px 15px rgba(0, 0, 0, 0.1);             /* tooltips, toasts */
+  --pipo-shadow-03: 0px 0px 4px rgba(0, 0, 0, 0.05),
+                    0px 8px 40px rgba(0, 0, 0, 0.1);             /* modals */
+  --pipo-shadow-hover:   0px 1px 1px 0px rgba(0, 0, 0, 0.05),
+                         0px 0px 0px 1px #BCBAB5 inset;
+  --pipo-shadow-focus-primary: 0px 1px 1px 0px rgba(0, 0, 0, 0.05),
+                               0px 0px 0px 2px #000 inset;
+  --pipo-shadow-focus-danger:  0px 1px 1px 0px rgba(0, 0, 0, 0.05),
+                               0px 0px 0px 2px #902D2D inset;
+
+  /* ─── Breakpoints ───────────────────────────────────── */
+  --pipo-screen-sm:  640px;
+  --pipo-screen-md:  768px;
+  --pipo-screen-lg:  1024px;
+  --pipo-screen-xl:  1280px;
+}
+
+/* ─── Base reset & defaults ─────────────────────────────── */
+.pipo-base,
+body.pipo-base {
+  font-family: var(--pipo-font-body);
+  font-size: var(--pipo-fs-medium);
+  font-weight: var(--pipo-fw-regular);
+  line-height: var(--pipo-lh-relaxed);
+  color: var(--pipo-text-primary);
+  background: var(--pipo-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+.pipo-base h1, .pipo-base h2, .pipo-base h3, .pipo-base h4 {
+  font-family: var(--pipo-font-display);
+  font-weight: var(--pipo-fw-bold);
+  line-height: var(--pipo-lh-headline);
+  color: var(--pipo-text-primary);
+  margin: 0;
+}
+.pipo-base h1 { font-size: var(--pipo-fs-h1); }
+.pipo-base h2 { font-size: var(--pipo-fs-h2); }
+.pipo-base h3 { font-size: var(--pipo-fs-h3); }
+.pipo-base code, .pipo-base pre { font-family: var(--pipo-font-mono); }

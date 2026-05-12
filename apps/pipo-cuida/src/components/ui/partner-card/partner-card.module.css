@@ -1,0 +1,34 @@
+.card {
+  width: 100%;
+  background: #F2E9FB;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: box-shadow 160ms var(--ease-standard);
+}
+.card:hover { box-shadow: inset 0 0 0 1px #8B3ADD; }
+.body { flex: 1; }
+.eyebrowRow { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.glyph { display: block; }
+.eyebrow { font: 500 15px/22px var(--font-display); color: #8B3ADD; }
+.title { font: 500 14px/22px var(--font-body); color: #000; }
+.subtitle { font: 400 14px/22px var(--font-body); color: #000; }
+.arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #8B3ADD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B3ADD;
+  font-size: 18px;
+  flex-shrink: 0;
+}

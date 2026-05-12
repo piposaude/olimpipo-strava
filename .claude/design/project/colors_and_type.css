@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Pipo Saúde — Colors & Type
+   Tokens extracted from the official Figma design system file.
+   ========================================================================== */
+
+/* ---------- Fonts ---------- */
+
+/* Brand-provided Manrope variable font (local file). */
+@font-face {
+  font-family: "Manrope";
+  src: url("fonts/Manrope-VariableFont_wght.ttf") format("truetype-variations"),
+       url("fonts/Manrope-VariableFont_wght.ttf") format("truetype");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Remaining substitutes still from Google Fonts — ask brand for local files. */
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
+
+/* SUBSTITUTION FLAG:
+   - "Pipo" and "Season Serif" are proprietary brand fonts we could not
+     extract. Season Serif (display) is substituted with "DM Serif Display".
+     "Pipo" (brand body) is substituted with Work Sans. Ask for the TTF.   */
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap");
+
+:root {
+  /* ---------- Brand primary ---------- */
+  --color-brand-primary:            #000000;          /* primary actions, text */
+  --color-brand-primary-light:      #E6D9C2;          /* beige accent */
+  --color-brand-primary-lightest:   #F7F3EB;          /* soft beige surface */
+  --color-brand-primary-light-op:   rgba(157,106,5,0.25);
+  --color-brand-primary-lightest-op:rgba(128,85,0,0.07);
+
+  /* Signature deep-night + cyan from the cover */
+  --color-brand-night:              #060D41;
+  --color-brand-cyan:               #3B9AFF;
+
+  /* ---------- Neutrals (grey) ---------- */
+  --color-neutral-darkest:          #3C404A;
+  --color-neutral-dark:             #6B6663;
+  --color-neutral-regular:          #BCBAB5;
+  --color-neutral-light:            #E2E1DF;
+  --color-neutral-lightest:         #F6F6F6;
+  --color-neutral-light-op:         rgba(128,115,89,0.21);
+
+  /* ---------- Beige surfaces ---------- */
+  --color-beige-regular:            #DDD6D0;
+  --color-beige-light:              #E6D9C2;
+  --color-beige-lightest:           #F7F3EB;
+
+  /* ---------- Overlay ---------- */
+  --color-overlay-medium:           rgba(0,0,0,0.32);
+
+  /* ---------- Support / semantic ---------- */
+  --color-success-dark:             #17A66D;
+  --color-success-light:            #A8F2CE;
+  --color-success-lightest:         #D4F8E7;
+
+  --color-warning-dark:             #FFB033;
+  --color-warning-light:            #FFD17D;
+  --color-warning-lightest:         #FFEEC2;
+
+  --color-danger-dark:              #F04646;
+  --color-danger-light:             #FFACAC;
+  --color-danger-lightest:          #FFDEDE;
+  --color-danger-hover:             #902D2D;
+
+  /* ---------- Vendor ---------- */
+  --color-whatsapp-dark:            #0D685E;
+  --color-whatsapp-regular:         #118578;
+
+  /* ---------- Complementary / charts / decorative ---------- */
+  --color-blue-dark:                #1527A9;
+  --color-blue-regular:             #3370D1;
+  --color-blue-light:               #A2CEFF;
+
+  --color-purple-regular:           #8B3ADD;
+  --color-purple-light:             #E8D8F8;
+  --color-purple-lightest:          #F2E9FB;
+
+  --color-pink-regular:             #FE7B9D;
+  --color-pink-light:               #FFACC2;
+  --color-pink-extra-light:         #FFD9E1;
+  --color-pink-lightest:            #FFEFF3;
+
+  --color-peach-regular:            #FFA28D;
+  --color-peach-light:               #FFDAD1;
+  --color-peach-lightest:           #FFEDE8;
+
+  /* ---------- Opacity tokens ---------- */
+  --opacity-medium: 0.5;
+  --opacity-light: 0.3;
+  --opacity-subtle: 0.15;
+
+  /* ---------- Semantic foreground / background ---------- */
+  --fg-1: #000000;          /* headings, primary text */
+  --fg-2: #3C404A;          /* body text */
+  --fg-3: #6B6663;          /* secondary text */
+  --fg-muted: #BCBAB5;      /* placeholders, captions */
+  --fg-on-dark: #FFFFFF;
+  --fg-link: #1743C9;
+
+  --bg-1: #FFFFFF;          /* page base */
+  --bg-2: #F6F6F6;          /* subtle fills */
+  --bg-3: #F7F3EB;          /* brand warm surface */
+  --bg-inverse: #060D41;
+
+  --border-subtle: #E2E1DF;
+  --border-regular: #BCBAB5;
+  --border-strong: #000000;
+
+  /* ---------- Radii ---------- */
+  --radius-small:    8px;
+  --radius-medium:  16px;
+  --radius-large:   24px;
+  --radius-xlarge:  40px;
+  --radius-circle:  50%;
+  --radius-pill:    9999px;
+
+  /* ---------- Spacing (8pt grid) ---------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 96px;
+
+  /* ---------- Shadows ---------- */
+  --shadow-01: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-02: 0 0 2px rgba(0,0,0,0.2), 0 2px 15px rgba(0,0,0,0.1);       /* tooltips / toasts */
+  --shadow-03: 0 0 4px rgba(0,0,0,0.05), 0 8px 40px rgba(0,0,0,0.1);      /* modals */
+  --shadow-hover:   0 1px 1px rgba(0,0,0,0.05), 0 0 0 1px #BCBAB5 inset;
+  --shadow-active-primary: 0 1px 1px rgba(0,0,0,0.05), 0 0 0 2px #000 inset;
+  --shadow-active-danger:  0 1px 1px rgba(0,0,0,0.05), 0 0 0 2px #902D2D inset;
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(.2,.0,.0,1);
+  --ease-decel:    cubic-bezier(.0,.0,.2,1);
+  --dur-fast:   120ms;
+  --dur-base:   200ms;
+  --dur-slow:   320ms;
+
+  /* ---------- Type families (Figma Design System — Production) ---------- */
+  --font-brand:   "Pipo", "Fraunces", "DM Serif Display", Georgia, serif;  /* proprietary — use sparingly */
+  --font-display: "Season Serif", "Fraunces", "DM Serif Display", Georgia, serif;
+  --font-heading: "Poppins", system-ui, sans-serif;
+  --font-body:    "Work Sans", system-ui, sans-serif;
+  --font-ui:      "Manrope", "Work Sans", system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- Font size scale (base 16px) ---------- */
+  --font-size-xxsmall: 0.5rem;    /*  8px */
+  --font-size-xsmall:  0.75rem;   /* 12px */
+  --font-size-small:   0.875rem;  /* 14px */
+  --font-size-medium:  1rem;      /* 16px */
+  --font-size-big:     1.25rem;   /* 20px */
+  --font-size-xbig:    1.5rem;    /* 24px */
+
+  /* ---------- Font weight ---------- */
+  --font-weight-light:    300;
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* ---------- Line height ---------- */
+  --line-height-0: 1;         /* 100% — títulos maiores de display */
+  --line-height-1: 1.2;       /* 120% — títulos */
+  --line-height-2: 1.3125;    /* 131.3% — tudo que não é body / link */
+  --line-height-3: 1.5;       /* 150% — body e link */
+}
+
+/* ==========================================================================
+   Semantic type styles
+   ========================================================================== */
+html, body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--fg-2);
+  background: var(--bg-1);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.display-xl,
+.ds-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--fg-1);
+}
+
+.ds-display-lg { font: 500 64px/1.05 var(--font-display); letter-spacing:-0.01em; color:var(--fg-1); }
+.ds-display-md { font: 500 48px/1.1  var(--font-display); letter-spacing:-0.005em; color:var(--fg-1); }
+
+h1, .ds-h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  color: var(--fg-1);
+  margin: 0;
+}
+h2, .ds-h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--fg-1);
+  margin: 0;
+}
+h3, .ds-h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--fg-1);
+  margin: 0;
+}
+h4, .ds-h4 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fg-1);
+  margin: 0;
+}
+
+p, .ds-body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+.ds-body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+.ds-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.33;
+  color: var(--fg-3);
+}
+
+.ds-overline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.33;
+  color: var(--fg-3);
+  text-transform: none;          /* mono tokens are usually lowercase :like-this */
+}
+
+.ds-label,
+.ds-button-label {
+  font-family: var(--font-ui);   /* Manrope — brand text style "Label · 14/24" */
+  font-weight: 600;              /* SemiBold */
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.ds-token {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--fg-1);
+  background: #F1F4FD;
+  padding: 4px 10px;
+  border-radius: 72px;
+}
+
+code, kbd, samp, pre, .ds-code {
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+a, .ds-link {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

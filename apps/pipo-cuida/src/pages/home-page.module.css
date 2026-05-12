@@ -1,0 +1,14 @@
+.shell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px 96px;
+  box-sizing: border-box;
+}
+.column {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}

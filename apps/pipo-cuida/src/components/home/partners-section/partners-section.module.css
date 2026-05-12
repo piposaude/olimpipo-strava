@@ -1,0 +1,6 @@
+.heading {
+  margin: 0 0 14px;
+  font: 500 18px/26px var(--pipo-font-display);
+  font-style: normal;
+  color: #000;
+}
