@@ -34,8 +34,11 @@ def register_activity(company_id: str, body: RegisterActivityRequest):
 
 
 @app.get("/v1/company/{company_id}/participants/activities")
-def list_activities(company_id: str):
-    return [r for r in registered if r["company_id"] == company_id]
+def list_activities(company_id: str, participant_id: str | None = None):
+    result = [r for r in registered if r["company_id"] == company_id]
+    if participant_id:
+        result = [r for r in result if r["participant_id"] == participant_id]
+    return result
 
 
 @app.get("/health")

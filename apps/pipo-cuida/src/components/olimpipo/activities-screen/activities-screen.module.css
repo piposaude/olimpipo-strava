@@ -111,3 +111,19 @@
   transition: color 120ms var(--ease-standard);
 }
 .back:hover { color: var(--pipo-brand-primary); }
+
+.liveTag {
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--pipo-success-lightest);
+  color: var(--pipo-success-dark);
+  border-radius: 999px;
+  font: 500 11px/16px var(--font-mono);
+  vertical-align: middle;
+}
+
+.loading {
+  font: 400 14px/22px var(--font-body);
+  color: var(--pipo-neutral-dark);
+  padding: 16px 0;
+}

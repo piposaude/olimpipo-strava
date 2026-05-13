@@ -94,6 +94,8 @@ export function OlimpipoPage() {
   return (
     <ActivitiesScreen
       edition={view.edition}
+      participantId={participant_id}
+      companyId={company_id}
       onBack={() => setView({ kind: 'ranking', edition: view.edition })}
     />
   );
