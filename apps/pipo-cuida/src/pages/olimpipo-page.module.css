@@ -1,1 +1,82 @@
 /* OlimpipoPage is purely a state-machine wrapper — screens own their own layout. */
+
+.loginShell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--pipo-beige-lightest);
+}
+
+.loginCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 36px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+.loginEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 12px/16px var(--font-mono);
+  color: #9B3A1B;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 16px;
+}
+
+.loginIcon { width: 20px; height: 20px; }
+
+.loginTitle {
+  margin: 0 0 8px;
+  font: 500 26px/32px var(--font-heading);
+  color: #000;
+  letter-spacing: -0.3px;
+}
+
+.loginSub {
+  margin: 0 0 28px;
+  font: 400 14px/22px var(--font-body);
+  color: var(--pipo-neutral-dark);
+}
+
+.loginLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 500 13px/18px var(--font-ui);
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.loginInput {
+  padding: 10px 14px;
+  border: 1px solid var(--pipo-neutral-light);
+  border-radius: 8px;
+  font: 400 15px/22px var(--font-body);
+  color: #000;
+  outline: none;
+  transition: border-color 120ms var(--ease-standard);
+}
+
+.loginInput:focus { border-color: #000; }
+
+.loginBtn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 13px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font: 600 15px/22px var(--font-ui);
+  cursor: pointer;
+  transition: opacity 120ms var(--ease-standard);
+}
+
+.loginBtn:disabled { opacity: 0.35; cursor: default; }
+.loginBtn:not(:disabled):hover { opacity: 0.85; }

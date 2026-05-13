@@ -3,6 +3,8 @@ import { OLIMPIPO_EDITIONS, type Edition } from '../types';
 import styles from './editions-screen.module.css';
 
 export type EditionsScreenProps = {
+  participantId: string;
+  companyId: string;
   onOpenEdition: (edition: Edition) => void;
 };
 
@@ -19,10 +21,8 @@ function medalTierFor(rank: number): MedalTier {
   return { kind: 'none', label: null };
 }
 
-const STRAVA_CONNECT_URL =
-  'http://localhost:8000/strava/connect?participant_id=ana-silva&company_id=pipo-hackathon';
-
-export function EditionsScreen({ onOpenEdition }: EditionsScreenProps) {
+export function EditionsScreen({ participantId, companyId, onOpenEdition }: EditionsScreenProps) {
+  const STRAVA_CONNECT_URL = `http://localhost:8000/strava/connect?participant_id=${encodeURIComponent(participantId)}&company_id=${encodeURIComponent(companyId)}`;
   const active = OLIMPIPO_EDITIONS.find((e) => e.active);
   const past = OLIMPIPO_EDITIONS.filter((e) => !e.active);
 
