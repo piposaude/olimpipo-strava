@@ -250,11 +250,22 @@
     }
 
     function renderText(text) {
-      return text
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      // Extract URLs first to protect them from markdown processing.
+      const urls = [];
+      const withPlaceholders = text.replace(/(https?:\/\/[^\s]+)/g, (match) => {
+        urls.push(match);
+        return `\x00URL${urls.length - 1}\x00`;
+      });
+
+      const processed = withPlaceholders
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
-        .replace(/_(.*?)_/g, '<em>$1</em>')
-        .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+        .replace(/_(.*?)_/g, '<em>$1</em>');
+
+      return processed.replace(/\x00URL(\d+)\x00/g, (_, i) => {
+        const url = urls[parseInt(i, 10)];
+        return `<a href="${url}" target="_blank">${url}</a>`;
+      });
     }
 
     function addBubble(role, text, ts) {
@@ -287,7 +298,8 @@
 
       msgEl.value = '';
       addBubble('user', text, Date.now() / 1000);
-      lastCount++;
+      // Don't increment lastCount here — server echoes the user message back,
+      // so we skip it by setting lastCount = length-1 after the response.
 
       typingEl.style.display = 'flex';
       messagesEl.scrollTop = messagesEl.scrollHeight;
@@ -300,6 +312,8 @@
         });
         const data = await r.json();
         typingEl.style.display = 'none';
+        // Skip the echoed user message; show only the new agent reply.
+        lastCount = Math.max(lastCount, data.messages.length - 1);
         syncMessages(data.messages);
         startPolling(pid);
       } catch {
