@@ -1,4 +1,6 @@
-from fastapi import FastAPI, Query, HTTPException
+import os
+import httpx
+from fastapi import FastAPI, Query, HTTPException, BackgroundTasks
 from fastapi.responses import RedirectResponse
 from contextlib import asynccontextmanager
 from auth import token_store
@@ -6,6 +8,21 @@ from auth.strava_oauth import build_authorization_url, exchange_code, decode_sta
 from activities.fetcher import fetch_recent_activities
 from activities.registrar import register_activities
 from webhook.handler import router as webhook_router
+
+AGENT_MOCK_URL = os.getenv("AGENT_MOCK_URL", "")
+
+
+def _notify_agent(participant_id: str, registered_count: int):
+    if not AGENT_MOCK_URL:
+        return
+    try:
+        httpx.post(
+            f"{AGENT_MOCK_URL}/notify",
+            json={"participant_id": participant_id, "registered_count": registered_count},
+            timeout=3,
+        )
+    except Exception:
+        pass
 
 
 @asynccontextmanager
@@ -28,7 +45,7 @@ def connect(
 
 
 @app.get("/strava/callback")
-def callback(code: str = Query(...), state: str = Query(...)):
+def callback(code: str = Query(...), state: str = Query(...), background_tasks: BackgroundTasks = None):
     try:
         state_data = decode_state(state)
     except ValueError:
@@ -51,6 +68,9 @@ def callback(code: str = Query(...), state: str = Query(...)):
 
     activities = fetch_recent_activities(participant_id, days_back=90)
     registered = register_activities(participant_id, activities)
+
+    if background_tasks:
+        background_tasks.add_task(_notify_agent, participant_id, len(registered))
 
     return RedirectResponse(f"http://localhost:5173/connected?registered={len(registered)}")
 

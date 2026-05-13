@@ -16,6 +16,14 @@ services:
       - "8001:8001"
     env_file: .env
 
+  agent-mock:
+    build: ./apps/agent-mock
+    ports:
+      - "3001:3001"
+    env_file: .env
+    volumes:
+      - ./apps/agent-mock/src:/app/src
+
   toro-mock:
     build: ./apps/toro-mock
     ports:
