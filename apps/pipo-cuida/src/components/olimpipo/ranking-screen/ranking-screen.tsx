@@ -5,6 +5,7 @@ import styles from './ranking-screen.module.css';
 
 export type RankingScreenProps = {
   edition: Edition;
+  participantId: string;
   onBack: () => void;
   onOpenActivities: () => void;
 };
@@ -40,26 +41,32 @@ function initials(name: string): string {
 
 export function RankingScreen({
   edition,
+  participantId,
   onBack,
   onOpenActivities,
 }: RankingScreenProps) {
   const [tab, setTab] = useState<Tab>('all');
   const [showAll, setShowAll] = useState(false);
-  const top3 = OLIMPIPO_RANKING.slice(0, 3);
-  const me = OLIMPIPO_RANKING.find((r) => r.me);
+
+  const ranking = OLIMPIPO_RANKING.map((r) =>
+    r.me ? { ...r, name: participantId } : r,
+  );
+
+  const top3 = ranking.slice(0, 3);
+  const me = ranking.find((r) => r.me);
 
   // Window of 5 rows centered on the user.
-  const meIdx = OLIMPIPO_RANKING.findIndex((r) => r.me);
+  const meIdx = ranking.findIndex((r) => r.me);
   const windowSize = 5;
   let start = Math.max(0, meIdx - 2);
   let end = start + windowSize;
-  if (end > OLIMPIPO_RANKING.length) {
-    end = OLIMPIPO_RANKING.length;
+  if (end > ranking.length) {
+    end = ranking.length;
     start = Math.max(0, end - windowSize);
   }
   const visibleRows = showAll
-    ? OLIMPIPO_RANKING
-    : OLIMPIPO_RANKING.slice(start, end);
+    ? ranking
+    : ranking.slice(start, end);
 
   const tabs: { id: Tab; label: string }[] = [
     { id: 'all', label: 'Geral' },
@@ -167,7 +174,7 @@ export function RankingScreen({
         >
           {showAll
             ? 'Mostrar somente próximos a mim'
-            : `Ver classificação completa (${OLIMPIPO_RANKING.length})`}
+            : `Ver classificação completa (${ranking.length})`}
           <span className={styles.toggleCaret}>{showAll ? '▴' : '▾'}</span>
         </button>
       </div>
