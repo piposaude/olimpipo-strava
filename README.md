@@ -342,7 +342,78 @@ Veja `.env.example` para a lista completa. As obrigatórias:
 
 ## O que falta para produção
 
-- Integrar a página "Conectar Strava" no Toro real (com autenticação do participante)
-- Provisionar DynamoDB na AWS via Terraform
-- Registrar webhook com URL fixa (não ngrok)
-- Conectar no `health-actions` de produção (requer VPN + secrets AWS)
+### Já feito (após hackathon)
+
+- ✅ Endpoints `connect-strava`, `strava-callback` e `strava-webhook` portados pra `health-actions` real (Clojure)
+- ✅ Tabela `member-strava-credentials` em DynamoDB (criada manualmente em stag — ver bug abaixo)
+- ✅ Secrets do Strava (`strava-client-id`, `strava-client-secret`, `strava-redirect-uri`, `strava-verify-token`) no S3 `pipo-prod/secrets/health-actions/secrets.json` e equivalente em stag
+- ✅ CI/CD variables `STAG_/PROD_STRAVA_CLIENT_ID`, `_SECRET` e `_JWT_STRAVA_SECRET` no GitLab do `pipo-cuida-agents`
+- ✅ Authorization Callback Domain configurado no Strava developer portal como `pipo.health` (cobre todos os subdomínios)
+- ✅ Bot do Zendesk AI Agents (Ultimate) configurado: intent "conectar strava" → integração `[Olimpipo] hackhaton-strava` → endpoint `https://health-actions.pipo.health/v1/chat/connect-strava`
+- ✅ Fluxo end-to-end validado em stag: WhatsApp → bot → URL Strava → autorização → callback → credenciais persistidas
+
+### Pendências (em ordem de prioridade)
+
+#### 🔴 Críticas
+
+1. **Bug no Terraform — tabela DynamoDB sem prefixo de environment**
+   Em `pipoengineering/healthcare/health-actions/.tf/{stag,prod}/tables.tf`, o recurso `member_strava_credentials` está com:
+   ```hcl
+   name = "member-strava-credentials"  # ← errado, falta prefixo
+   ```
+   Deveria ser:
+   ```hcl
+   name = "${local.environment}-member-strava-credentials"
+   ```
+   Como stag e prod compartilham conta AWS, ambos os TF tentaram criar a mesma tabela. Hoje só existe `member-strava-credentials` (sem prefixo), enquanto a app espera `stag-member-strava-credentials` / `prod-member-strava-credentials`.
+
+   **Plano de correção:**
+   - Atualizar TF nos dois envs
+   - Aplicar `terraform apply` (cria as tabelas com prefixo)
+   - Deletar a tabela órfã `member-strava-credentials`
+   - Verificar que `stag-member-strava-credentials` (já criada manualmente em 2026-05-18) continua compatível com o schema do TF
+
+2. **Criar `prod-member-strava-credentials`**
+   Hoje só existe a tabela de stag. Antes do primeiro teste real em produção, criar a equivalente em prod (via TF corrigido ou manualmente com mesmo schema).
+
+#### 🟡 Importantes
+
+3. **Telefone do participante no Zendesk AI Agents**
+   Hoje o bot **pede o telefone ao usuário** ("Pra conectar seu Strava, me confirma seu telefone..."). Não é ideal — o telefone do visitante do WhatsApp já está no contexto do Sunshine, mas nenhuma das opções exploradas resolveu (`externalId`, `zendeskId`, `metadata.simpleUserPhone` todos vieram vazios; `{{userPhoneNumber}}` e `{{simpleUserPhone}}` não existem como built-ins).
+
+   **Investigar:**
+   - No Zendesk dashboard, abrir o body da integração e digitar `{{` lentamente — anotar todas as variáveis sugeridas pelo autocomplete
+   - Consultar doc do Zendesk AI Agents sobre variáveis de contexto pra canais WhatsApp/Sunshine
+   - Possivelmente criar uma action customizada que use a API do Sunshine direto pra buscar `user.identities[].externalId` (não exposto no dropdown da action UI)
+
+   Enquanto isso, o fluxo funciona pedindo manualmente.
+
+4. **Branch `feat/olimpipo-strava-connect` do `pipo-cuida-agents`**
+   Foi mergeada e revertida no main (commits `c243056` e `114ec5d`). A branch ainda existe mas seus commits estão na história do main, então o git considera "sem mudanças" pra mergear. Pra retomar a feature de strava nesse repo, precisa **rebase** ou **revert do revert**. Status atual: feature **NÃO está em pipo-cuida-agents** — o fluxo de produção usa só Zendesk AI Agents + health-actions.
+
+5. **Mensagem de confirmação via Sunshine falhando**
+   Após o callback de sucesso, o health-actions tenta mandar "Tudo certo! 🏆" via Sunshine usando o `conversation-id` recebido. Em stag, falha porque o `conversation-id` da conversa de teste não bate com o que o Sunshine de prod conhece (DNS de `health-actions.pipo.health` aponta pra prod). Em produção real deve funcionar, mas vale validar com um teste end-to-end com WhatsApp real de um participante cadastrado.
+
+#### 🟢 Nice-to-have
+
+6. **Participante encontrado por telefone**
+   Hoje após conectar Strava, o callback faz lookup por telefone na tabela `health-actions-participants`. Se o telefone não bate com nenhum participante cadastrado num desafio (Olimpipo), gera warning `"No participant found for phone XXX"` e nenhuma atividade é registrada. Testar com participante real cadastrado.
+
+7. **Token cleanup quando usuário desconecta**
+   Implementar endpoint pra revogar tokens Strava + remover credenciais (LGPD).
+
+8. **Webhook do Strava**
+   Já está implementado e mergeado, mas ainda não foi registrado em produção. Rodar:
+   ```bash
+   curl -X POST https://www.strava.com/api/v3/push_subscriptions \
+     -d client_id=$STRAVA_CLIENT_ID \
+     -d client_secret=$STRAVA_CLIENT_SECRET \
+     -d callback_url=https://health-actions.pipo.health/v1/strava/webhook \
+     -d verify_token=$STRAVA_VERIFY_TOKEN
+   ```
+
+9. **Integrar a página "Conectar Strava" no Toro real** (alternativa ao WhatsApp, caso queira oferecer fluxo web também)
+
+10. **Observability**
+    - Métricas no Grafana: `connect_strava_requests`, `callback_success_rate`, `activities_registered_count`
+    - Alertas no Sentry pra falhas no callback ou no webhook
